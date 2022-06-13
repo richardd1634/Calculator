@@ -8,44 +8,74 @@ body {
   text-align: center;
 }
 
-#main-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 640px;
-  width: 400px;
-  margin: 0 auto;
-}
-
 #calc-container {
   background-color: #2f2f2f;
-  height: 600px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+  height: 580px;
+  margin: 0 auto;
+  padding-top: 12px;
   width: 390px;
-  padding: 10px;
 }
 
 #output-container,
-#btn-container-top,
-#btn-container-bottom {
+#btn-container {
   width: 95%;
 }
 
 #output-container {
-  height: 40%;
+  margin: 0 auto;
+  height: 38%;
+  margin-bottom: 10px;
+  border-color: #ffffff;
+  border-style: solid;
 }
 
-#btn-container-top {
-  height: 30%;
-}
-
-#btn-container-bottom {
-  height: 25%;
+#btn-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 65%;
+  justify-items: center;
+  aling-content: center;
+  margin: 0 auto;
 }
 
 .btn {
+  color: #ffffff;
+  font-size: 1.5em;
   height: 55px;
   width: 55px;
+}
+
+#history,
+#main-display {
+  background-color: #2f2f2f;
+  color: #ffffff;
+  margin: 0 auto;
+  width: 350px;
+}
+
+#main-display {
+  font-size: 1.5em;
+  height: 40px;
+}
+
+#equal {
+  background-color: #000077;
+  grid-column-start: 5;
+  grid-row-start: 4;
+  grid-row-end: 7;
+  height: 123px;
+}
+
+#delete {
+  background-color: #aa0000;
+  background-image: url("img/delete-512.webp");
+  background-size: cover;
+}
+
+.operator {
+  background-color: #ff7000;
+}
+
+.number {
+  background-color: #2f2f2f;
 }
