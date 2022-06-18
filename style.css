@@ -23,7 +23,7 @@ body {
 
 #output-container {
   margin: 0 auto;
-  height: 38%;
+  height: 35%;
   margin-bottom: 10px;
   border-color: #ffffff;
   border-style: solid;
@@ -31,7 +31,7 @@ body {
 
 #btn-container {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   height: 65%;
   justify-items: center;
   aling-content: center;
@@ -58,15 +58,29 @@ body {
   height: 40px;
 }
 
+#add {
+  grid-column-start: 4;
+  grid-row-start: 2;
+  grid-row-end: 7;
+  height: 123px;
+}
+
 #equal {
   background-color: #000077;
-  grid-column-start: 5;
+  grid-column-start: 4;
   grid-row-start: 4;
   grid-row-end: 7;
   height: 123px;
 }
 
-#delete {
+#zero {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 5;
+  width: 123px;
+}
+
+#clear {
   background-color: #aa0000;
   background-image: url("img/delete-512.webp");
   background-size: cover;
