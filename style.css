@@ -10,10 +10,10 @@ body {
 
 #calc-container {
   background-color: #2f2f2f;
-  height: 580px;
+  height: 500px;
   margin: 0 auto;
   padding-top: 12px;
-  width: 390px;
+  width: 295px;
 }
 
 #output-container,
@@ -22,11 +22,12 @@ body {
 }
 
 #output-container {
-  margin: 0 auto;
-  height: 35%;
-  margin-bottom: 10px;
   border-color: #ffffff;
   border-style: solid;
+  height: 15%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  width: 90%;
 }
 
 #btn-container {
@@ -50,11 +51,12 @@ body {
   background-color: #2f2f2f;
   color: #ffffff;
   margin: 0 auto;
-  width: 350px;
+  text-align: right;
+  width: 95%;
 }
 
 #main-display {
-  font-size: 1.5em;
+  font-size: 2em;
   height: 40px;
 }
 
@@ -75,7 +77,7 @@ body {
 
 #zero {
   grid-column-start: 1;
-  grid-column-end: 2;
+  grid-column-end: 3;
   grid-row-start: 5;
   width: 123px;
 }
