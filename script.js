@@ -10,14 +10,20 @@ function Calculator() {
   const numRegex = /\d/g;
   let operand1,
     operand2,
-    operator = 0;
+    operator,
+    result = 0;
 
-  clearBtn.addEventListener("click", () => {
+  FullClearDisplay();
+
+  clearBtn.addEventListener("click", FullClearDisplay);
+
+  function FullClearDisplay() {
     history.textContent = "";
-    ClearDisplay();
-  });
+    equalBtn.disabled = true;
+    PartialClearDisplay();
+  }
 
-  function ClearDisplay() {
+  function PartialClearDisplay() {
     display.textContent = "0";
     pointBtn.disabled = false;
   }
@@ -29,6 +35,10 @@ function Calculator() {
   });
 
   function NumberBtnClicked(btnValue) {
+    if (history.textContent.endsWith("=")) {
+      FullClearDisplay();
+    }
+
     if (display.textContent === "0") {
       display.textContent = "";
     }
@@ -51,18 +61,24 @@ function Calculator() {
   });
 
   function OperatorBtnClicked(btnValue) {
+    // if (history.textContent.endsWith(/[+-/*]/)) {
+    //   operatorBtns.disabled = true;
+    // }
+
+    operand1 = Number(display.textContent);
     operator = btnValue;
-    const numbersArray =
-      history.textContent !== "" ? history.textContent.match(numRegex) : ["0"];
-    operand1 = Number(numbersArray.join(""));
-    operand2 = Number(display.textContent);
-    history.textContent = `${Operate(
-      operand1,
-      operand2,
-      operator
-    )} ${operator}`;
-    ClearDisplay();
+    history.textContent = `${operand1} ${operator}`;
+    PartialClearDisplay();
+    equalBtn.disabled = false;
   }
+
+  equalBtn.addEventListener("click", () => {
+    operand2 = Number(display.textContent);
+    history.textContent += ` ${operand2} =`;
+    result = Operate(operand1, operand2, operator);
+    display.textContent = result.toString();
+    equalBtn.disabled = true;
+  });
 
   function Operate(num1, num2, operation) {
     if (operation === "+") {
