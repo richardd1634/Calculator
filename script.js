@@ -5,38 +5,42 @@ function Calculator() {
   const numberBtns = document.querySelectorAll(".number");
   const operatorBtns = document.querySelectorAll(".operator");
   const pointBtn = document.getElementById("point");
-  const equalBtn = document.getElementById("equal");
+  const equalsBtn = document.getElementById("equals");
   const clearBtn = document.getElementById("clear");
   const numRegex = /\d/g;
   let operand1,
     operand2,
-    operator,
     result = 0;
+  let operator = "";
 
-  FullClearDisplay();
+  FullClear();
 
-  clearBtn.addEventListener("click", FullClearDisplay);
+  clearBtn.addEventListener("click", FullClear);
 
-  function FullClearDisplay() {
+  function FullClear() {
+    operand1 = 0;
+    operand2 = 0;
+    operator = "";
+    result = 0;
     history.textContent = "";
-    equalBtn.disabled = true;
-    PartialClearDisplay();
+    equalsBtn.disabled = true;
+    PartialClear();
   }
 
-  function PartialClearDisplay() {
+  function PartialClear() {
     display.textContent = "0";
     pointBtn.disabled = false;
   }
 
   numberBtns.forEach((numberBtn) => {
     numberBtn.addEventListener("click", (event) =>
-      NumberBtnClicked(event.currentTarget.textContent)
+      NumberBtnAction(event.currentTarget.textContent)
     );
   });
 
-  function NumberBtnClicked(btnValue) {
+  function NumberBtnAction(btnValue) {
     if (history.textContent.endsWith("=")) {
-      FullClearDisplay();
+      FullClear();
     }
 
     if (display.textContent === "0") {
@@ -56,29 +60,46 @@ function Calculator() {
 
   operatorBtns.forEach((operatorBtn) => {
     operatorBtn.addEventListener("click", (event) =>
-      OperatorBtnClicked(event.currentTarget.textContent)
+      OperatorBtnAction(event.currentTarget.textContent)
     );
   });
 
-  function OperatorBtnClicked(btnValue) {
-    // if (history.textContent.endsWith(/[+-/*]/)) {
-    //   operatorBtns.disabled = true;
-    // }
+  function OperatorBtnAction(btnValue) {
+    if (history.textContent !== "" && !history.textContent.endsWith("=")) {
+      operand2 = Number(display.textContent);
+      result = Operate(operand1, operand2, operator);
+      if (result === "Division by zero") {
+        history.textContent = `${operand1} ${operator} ${operand2} =`;
+        display.textContent = result;
+        equalsBtn.disabled = true;
+        return;
+      }
+      operand1 = result;
+      operator = btnValue;
+      history.textContent = `${operand1} ${operator}`;
+      PartialClear();
+      equalsBtn.disabled = false;
+      return;
+    }
 
-    operand1 = Number(display.textContent);
-    operator = btnValue;
-    history.textContent = `${operand1} ${operator}`;
-    PartialClearDisplay();
-    equalBtn.disabled = false;
+    if (display.textContent !== "Division by zero") {
+      operand1 = Number(display.textContent);
+      operator = btnValue;
+      history.textContent = `${operand1} ${operator}`;
+      PartialClear();
+      equalsBtn.disabled = false;
+    }
   }
 
-  equalBtn.addEventListener("click", () => {
+  equalsBtn.addEventListener("click", equalsBtnAction);
+
+  function equalsBtnAction() {
     operand2 = Number(display.textContent);
     history.textContent += ` ${operand2} =`;
     result = Operate(operand1, operand2, operator);
     display.textContent = result.toString();
-    equalBtn.disabled = true;
-  });
+    equalsBtn.disabled = true;
+  }
 
   function Operate(num1, num2, operation) {
     if (operation === "+") {
@@ -89,11 +110,11 @@ function Calculator() {
       return Substraction(num1, num2);
     }
 
-    if (operation === "*") {
+    if (operation === "x") {
       return Multiplication(num1, num2);
     }
 
-    if (operation === "/") {
+    if (operation === "÷") {
       return Division(num1, num2);
     }
   }
@@ -111,6 +132,6 @@ function Calculator() {
   }
 
   function Division(num1, num2) {
-    return num1 / num2;
+    return num2 > 0 ? num1 / num2 : "Division by zero";
   }
 }
