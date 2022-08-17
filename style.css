@@ -11,9 +11,9 @@ body {
 
 #calc-container {
   background-color: #2f2f2f;
-  border-color: #ffffff;
+  border-color: #dddddd;
   border-style: solid;
-  height: 390px;
+  height: 400px;
   margin: 0 auto;
   padding-top: 12px;
   width: 295px;
@@ -25,7 +25,7 @@ body {
 }
 
 #output-container {
-  border-color: #ffffff;
+  border-color: #dddddd;
   border-style: solid;
   height: 16%;
   margin: 0 auto;
@@ -52,18 +52,19 @@ body {
 #history,
 #main-display {
   background-color: #2f2f2f;
-  color: #ffffff;
   margin: 0 auto;
   text-align: right;
   width: 95%;
 }
 
 #main-display {
+  color: #ffffff;
   font-size: 1.6em;
   height: 55%;
 }
 
 #history {
+  color: #aaaaaa;
   font-size: 1em;
   height: 40%;
 }
@@ -102,4 +103,9 @@ body {
 
 .number {
   background-color: #2f2f2f;
+}
+
+#equals:disabled,
+#point:disabled {
+  background-color: #000011;
 }

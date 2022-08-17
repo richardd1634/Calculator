@@ -32,6 +32,8 @@ function Calculator() {
     pointBtn.disabled = false;
   }
 
+  function PrintDisplay() {}
+
   numberBtns.forEach((numberBtn) => {
     numberBtn.addEventListener("click", (event) =>
       NumberBtnAction(event.currentTarget.textContent)
@@ -48,7 +50,7 @@ function Calculator() {
     }
 
     // Limit the amount of digit to 16
-    if (display.textContent.length < 16) {
+    if (display.textContent.length < 17) {
       display.textContent += btnValue;
     }
 
@@ -69,14 +71,16 @@ function Calculator() {
       operand2 = Number(display.textContent);
       result = Operate(operand1, operand2, operator);
       if (result === "Division by zero") {
-        history.textContent = `${operand1} ${operator} ${operand2} =`;
-        display.textContent = result;
+        history.textContent = `${CheckOperandLength(
+          operand1
+        )} ${operator} ${CheckOperandLength(operand2)} =`;
+        display.textContent = CheckResultLength(result);
         equalsBtn.disabled = true;
         return;
       }
       operand1 = result;
       operator = btnValue;
-      history.textContent = `${operand1} ${operator}`;
+      history.textContent = `${CheckOperandLength(operand1)} ${operator}`;
       PartialClear();
       equalsBtn.disabled = false;
       return;
@@ -85,7 +89,7 @@ function Calculator() {
     if (display.textContent !== "Division by zero") {
       operand1 = Number(display.textContent);
       operator = btnValue;
-      history.textContent = `${operand1} ${operator}`;
+      history.textContent = `${CheckOperandLength(operand1)} ${operator}`;
       PartialClear();
       equalsBtn.disabled = false;
     }
@@ -95,10 +99,22 @@ function Calculator() {
 
   function equalsBtnAction() {
     operand2 = Number(display.textContent);
-    history.textContent += ` ${operand2} =`;
+    history.textContent += ` ${CheckOperandLength(operand2)} =`;
     result = Operate(operand1, operand2, operator);
-    display.textContent = result.toString();
+    display.textContent = CheckResultLength(result);
     equalsBtn.disabled = true;
+  }
+
+  function CheckResultLength(output) {
+    return output.toString().length <= 17
+      ? output.toString()
+      : output.toExponential(11);
+  }
+
+  function CheckOperandLength(output) {
+    return output.toString().length <= 11
+      ? output.toString()
+      : output.toExponential(6);
   }
 
   function Operate(num1, num2, operation) {
