@@ -6,6 +6,7 @@ function Calculator() {
   const operatorBtns = document.querySelectorAll(".operator");
   const pointBtn = document.getElementById("point");
   const equalsBtn = document.getElementById("equals");
+  const clearAllBtn = document.getElementById("clear-all");
   const clearBtn = document.getElementById("clear");
   const numRegex = /\d/g;
   let operand1,
@@ -15,7 +16,7 @@ function Calculator() {
 
   FullClear();
 
-  clearBtn.addEventListener("click", FullClear);
+  clearAllBtn.addEventListener("click", FullClear);
 
   function FullClear() {
     operand1 = 0;
@@ -32,7 +33,24 @@ function Calculator() {
     pointBtn.disabled = false;
   }
 
-  function PrintDisplay() {}
+  clearBtn.addEventListener("click", Clear);
+
+  function Clear() {
+    if (history.textContent.endsWith("=")) {
+      return;
+    }
+
+    display.textContent =
+      display.textContent.length > 1 ? DeleteDigit(display.textContent) : "0";
+
+    if (!display.textContent.includes(".")) {
+      pointBtn.disabled = false;
+    }
+  }
+
+  function DeleteDigit(digits) {
+    return digits.slice(0, digits.length - 1);
+  }
 
   numberBtns.forEach((numberBtn) => {
     numberBtn.addEventListener("click", (event) =>

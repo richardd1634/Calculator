@@ -69,13 +69,6 @@ body {
   height: 40%;
 }
 
-#add {
-  grid-column-start: 4;
-  grid-row-start: 2;
-  grid-row-end: 7;
-  height: 115px;
-}
-
 #equals {
   background-color: #000077;
   grid-column-start: 4;
@@ -91,10 +84,9 @@ body {
   width: 125px;
 }
 
-#clear {
+#clear,
+#clear-all {
   background-color: #880000;
-  background-image: url("img/delete-512.webp");
-  background-size: cover;
 }
 
 .operator {
@@ -102,10 +94,11 @@ body {
 }
 
 .number {
-  background-color: #2f2f2f;
+  background-color: #1f1f1f;
 }
 
+#clear:disabled,
 #equals:disabled,
 #point:disabled {
-  background-color: #000011;
+  background-color: #2f2f2f;
 }
