@@ -58,9 +58,11 @@ body {
 }
 
 #main-display {
+  border: none;
   color: #ffffff;
   font-size: 1.6em;
   height: 55%;
+  max-length: 16;
 }
 
 #history {

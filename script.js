@@ -8,11 +8,22 @@ function Calculator() {
   const equalsBtn = document.getElementById("equals");
   const clearAllBtn = document.getElementById("clear-all");
   const clearBtn = document.getElementById("clear");
-  const numRegex = /\d/g;
+  const outputContainer = document.getElementById("output-container");
   let operand1,
     operand2,
     result = 0;
   let operator = "";
+
+  display.addEventListener("keydown", (e) => {
+    e.preventDefault();
+    console.log(e);
+  });
+
+  //(/[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?/gm)
+
+  function ReadKey(keyValue) {
+    console.log(keyValue);
+  }
 
   FullClear();
 
@@ -29,7 +40,7 @@ function Calculator() {
   }
 
   function PartialClear() {
-    display.textContent = "0";
+    display.value = "0";
     pointBtn.disabled = false;
   }
 
@@ -40,10 +51,9 @@ function Calculator() {
       return;
     }
 
-    display.textContent =
-      display.textContent.length > 1 ? DeleteDigit(display.textContent) : "0";
+    display.value = display.value.length > 1 ? DeleteDigit(display.value) : "0";
 
-    if (!display.textContent.includes(".")) {
+    if (!display.value.includes(".")) {
       pointBtn.disabled = false;
     }
   }
@@ -63,13 +73,13 @@ function Calculator() {
       FullClear();
     }
 
-    if (display.textContent === "0") {
-      display.textContent = "";
+    if (display.value === "0") {
+      display.value = "";
     }
 
     // Limit the amount of digit to 16
-    if (display.textContent.length < 17) {
-      display.textContent += btnValue;
+    if (display.value.length < 17) {
+      display.value += btnValue;
     }
 
     // Disable the point button after one hit
@@ -86,13 +96,13 @@ function Calculator() {
 
   function OperatorBtnAction(btnValue) {
     if (history.textContent !== "" && !history.textContent.endsWith("=")) {
-      operand2 = Number(display.textContent);
+      operand2 = Number(display.value);
       result = Operate(operand1, operand2, operator);
       if (result === "Division by zero") {
         history.textContent = `${CheckOperandLength(
           operand1
         )} ${operator} ${CheckOperandLength(operand2)} =`;
-        display.textContent = CheckResultLength(result);
+        display.value = CheckResultLength(result);
         equalsBtn.disabled = true;
         return;
       }
@@ -104,8 +114,8 @@ function Calculator() {
       return;
     }
 
-    if (display.textContent !== "Division by zero") {
-      operand1 = Number(display.textContent);
+    if (display.value !== "Division by zero") {
+      operand1 = Number(display.value);
       operator = btnValue;
       history.textContent = `${CheckOperandLength(operand1)} ${operator}`;
       PartialClear();
@@ -116,10 +126,10 @@ function Calculator() {
   equalsBtn.addEventListener("click", equalsBtnAction);
 
   function equalsBtnAction() {
-    operand2 = Number(display.textContent);
+    operand2 = Number(display.value);
     history.textContent += ` ${CheckOperandLength(operand2)} =`;
     result = Operate(operand1, operand2, operator);
-    display.textContent = CheckResultLength(result);
+    display.value = CheckResultLength(result);
     equalsBtn.disabled = true;
   }
 
