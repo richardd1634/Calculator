@@ -65,6 +65,10 @@ body {
   max-length: 16;
 }
 
+#main-display:focus {
+  outline: none;
+}
+
 #history {
   color: #aaaaaa;
   font-size: 1em;

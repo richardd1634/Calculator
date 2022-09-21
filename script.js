@@ -13,17 +13,8 @@ function Calculator() {
     operand2,
     result = 0;
   let operator = "";
-
-  display.addEventListener("keydown", (e) => {
-    e.preventDefault();
-    console.log(e);
-  });
-
-  //(/[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?/gm)
-
-  function ReadKey(keyValue) {
-    console.log(keyValue);
-  }
+  let numberRegEx = /[\d.]/;
+  let operatorRegEx = /[+\-*\/]/;
 
   FullClear();
 
@@ -78,14 +69,17 @@ function Calculator() {
     }
 
     // Limit the amount of digit to 16
-    if (display.value.length < 17) {
-      display.value += btnValue;
+    if (display.value.length >= 16) {
+      return;
     }
 
+    if (btnValue === "." && pointBtn.disabled === true) return;
+
     // Disable the point button after one hit
-    if (btnValue === ".") {
+    if (btnValue === "." && pointBtn.disabled === false)
       pointBtn.disabled = true;
-    }
+
+    display.value += btnValue;
   }
 
   operatorBtns.forEach((operatorBtn) => {
@@ -95,9 +89,14 @@ function Calculator() {
   });
 
   function OperatorBtnAction(btnValue) {
+    if (btnValue === "*") btnValue = "x";
+
+    if (btnValue === "/") btnValue = "÷";
+
     if (history.textContent !== "" && !history.textContent.endsWith("=")) {
       operand2 = Number(display.value);
       result = Operate(operand1, operand2, operator);
+
       if (result === "Division by zero") {
         history.textContent = `${CheckOperandLength(
           operand1
@@ -106,6 +105,7 @@ function Calculator() {
         equalsBtn.disabled = true;
         return;
       }
+
       operand1 = result;
       operator = btnValue;
       history.textContent = `${CheckOperandLength(operand1)} ${operator}`;
@@ -154,11 +154,11 @@ function Calculator() {
       return Substraction(num1, num2);
     }
 
-    if (operation === "x") {
+    if (operation === "x" || operation === "*") {
       return Multiplication(num1, num2);
     }
 
-    if (operation === "÷") {
+    if (operation === "÷" || operation === "/") {
       return Division(num1, num2);
     }
   }
@@ -177,5 +177,24 @@ function Calculator() {
 
   function Division(num1, num2) {
     return num2 > 0 ? num1 / num2 : "Division by zero";
+  }
+
+  // Keyboard support
+  display.addEventListener("keydown", (e) => {
+    e.preventDefault();
+    console.log(e);
+    ReadKey(e.key);
+  });
+
+  function ReadKey(keyValue) {
+    if (numberRegEx.test(keyValue)) NumberBtnAction(keyValue);
+
+    if (operatorRegEx.test(keyValue)) OperatorBtnAction(keyValue);
+
+    if (keyValue === "Backspace") Clear();
+
+    if (keyValue === "Enter" && equalsBtn.disabled === false) equalsBtnAction();
+
+    if (keyValue === "Escape") FullClear();
   }
 }
